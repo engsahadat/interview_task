@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->string('order_number')->unique();
-            $table->decimal('total', 12, 2);
+            $table->integer('quantity');
+            $table->decimal('total_price', 10, 2);
             $table->tinyInteger('status')->default(1)->comment('pending=>1, processing=>2, completed=>3, cancelled=>4');
-            $table->text('notes')->nullable();
             $table->timestamps();
-            $table->softDeletes();
             
-            $table->index(['user_id', 'created_at']);
+            $table->index('user_id');
+            $table->index('product_id');
             $table->index('status');
-            $table->index('order_number');
         });
     }
 

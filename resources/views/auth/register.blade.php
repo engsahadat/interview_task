@@ -74,7 +74,6 @@
         
             axios.post("{{ route('register.store') }}", formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 method: 'post',
