@@ -7,15 +7,35 @@ use App\Services\BlogPostService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use OpenApi\Annotations as OA;
+
+/**
+ * @OA\Info(title="Dummy", version="1.0.0")
+ * @OA\Tag(
+ *     name="BlogPosts",
+ *     description="Operations about blog posts"
+ * )
+ */
 class BlogPostController extends Controller
 {
-    // Fetch all blog post
+    /**
+     * @OA\Get(
+     *     path="/api/posts",
+     *     summary="Get all posts",
+     *     tags={"BlogPosts"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Post fetched successfully"
+     *     )
+     * )
+     */
     public function index()
     {
         try {
             $blodPost = BlogPostService::getAllPost();
             return response()->json([
                 'success' => true,
+                'message' => 'Post fetched successfully',
                 'data'    => $blodPost
             ], 200);
         } catch (\Exception $e) {
@@ -27,7 +47,31 @@ class BlogPostController extends Controller
         }
     }
 
-    // Create a new blog post
+    /**
+     * @OA\Post(
+     *     path="/api/posts",
+     *     summary="Create a new post",
+     *     tags={"BlogPosts"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"title", "content"},
+     *             @OA\Property(property="title", type="string"),
+     *             @OA\Property(property="content", type="string"),
+     *             @OA\Property(property="user_id", type="integer", nullable=true),
+     *             @OA\Property(property="published_at", type="timestamp", format="date-time", nullable=true)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Post created successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation errors occurred"
+     *     )
+     * )
+     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -61,14 +105,34 @@ class BlogPostController extends Controller
         }
     }
 
-
-    // Show post
+    /**
+     * @OA\Get(
+     *     path="/api/posts/{id}",
+     *     summary="Get a post by ID",
+     *     tags={"BlogPosts"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Post fetched successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Post not found"
+     *     )
+     * )
+     */
     public function show($id)
     {
         try {
             $post = BlogPostService::getPostById($id);
             return response()->json([
                 'success' => true,
+                'message' => 'Post fetched successfully',
                 'data'    => $post
             ], 200);
         } catch (ModelNotFoundException $e) {
@@ -84,7 +148,37 @@ class BlogPostController extends Controller
         }
     }
 
-    // Update a post
+    /**
+     * @OA\Put(
+     *     path="/api/posts/{id}",
+     *     summary="Update a post",
+     *     tags={"BlogPosts"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"title", "content"},
+     *             @OA\Property(property="title", type="string"),
+     *             @OA\Property(property="content", type="string"),
+     *             @OA\Property(property="user_id", type="integer", nullable=true),
+     *             @OA\Property(property="published_at", type="string", format="date-time", nullable=true)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Post updated successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Post not found"
+     *     )
+     * )
+     */
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -121,7 +215,27 @@ class BlogPostController extends Controller
         }
     }
 
-    // Delete a post
+    /**
+     * @OA\Delete(
+     *     path="/api/posts/{id}",
+     *     summary="Delete a post",
+     *     tags={"BlogPosts"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Post deleted successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Post not found"
+     *     )
+     * )
+     */
     public function destroy($id)
     {
         try {
