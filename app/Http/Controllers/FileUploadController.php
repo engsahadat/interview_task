@@ -29,7 +29,7 @@ class FileUploadController extends Controller
             'success'  => true,
             'message'  => 'File uploaded and processing started.',
             'filename' => $storedPath,
-            'redirect' => route('file.index')
+            'redirect' => route('file.create')
         ]);
     }
 }

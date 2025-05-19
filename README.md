@@ -67,9 +67,5 @@ After Optimization 0.030809879302979 seconds
 
 QUEUE_CONNECTION=database
 
-# Create queue tables
-php artisan queue:table
-php artisan migrate
-
 # Start queue worker
 php artisan queue:work

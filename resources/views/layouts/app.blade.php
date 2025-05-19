@@ -38,7 +38,7 @@ use App\Libs\Constants;
                         <a class="nav-link" href="{{ route('order.optimize') }}">{{ __('Optimize Query') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('file.index') }}">{{ __('File Upload') }}</a>
+                        <a class="nav-link" href="{{ route('file.create') }}">{{ __('File Upload') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout').submit();">{{ __('Logout') }}</a>
