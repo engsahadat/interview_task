@@ -53,9 +53,9 @@ http://127.0.0.1:8000/api/documentation
 - **Eager Loading:** Eliminates N+1 problem by preloading related models.
 - **Indexing:** Speeds up lookup on foreign key columns.
 
-Before Optimization
+Before Optimization 0.095531940460205 seconds
 
-After Optimization
+After Optimization 0.030809879302979 seconds
 
 # Tools
  Laravel Debugbar for monitoring query performance
